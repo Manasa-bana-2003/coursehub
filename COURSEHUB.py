@@ -1,4 +1,6 @@
 #TASK1
+
+# this is the day 8 content
 course_name="CourseHub"
 book_count=50
 
