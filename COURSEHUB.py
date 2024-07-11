@@ -377,6 +377,3 @@ cursor.close()
 connection.close()
 print("Database connection closed.")
 
-
-
-
