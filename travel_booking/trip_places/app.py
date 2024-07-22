@@ -20,12 +20,7 @@ def search():
     if request.method == 'POST':
         search_term = request.form.get('search_term')
         return redirect(url_for('results', search_term=search_term))
-    return '''
-        <form method="post" action="/">
-            <input type="text" name="search_term" placeholder="Search for places">
-            <input type="submit" value="Search">
-        </form>
-    '''
+    return render_template('index.html')
 
 @app.route('/results', methods=['GET'])
 def results():

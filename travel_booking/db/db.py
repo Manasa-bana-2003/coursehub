@@ -55,4 +55,3 @@ class Places:
                 places_data = cursor.fetchall()
                 places = [Place(*data) for data in places_data]
         return places
-
