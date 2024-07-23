@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Planning</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="/" class="logo">Travel Guide</a>
+            <nav class="nav">
+                {% if session['role'] == 'user' or session['role'] == 'admin' %}
+                    <a class="nav-link" href="/home">Home</a>
+                    <a class="nav-link" href="/destinations">Destinations</a>
+                    <a class="nav-link" href="/profile">Profile</a>
+                    <a class="nav-link" href="/signout">Signout</a>
+                {% else %}
+                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="/destinations">Destinations</a>
+                    <a class="nav-link" href="/signin">Sign In</a>
+                    <a class="nav-link" href="/signup">Sign Up</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="hero">
+        <div class="container">
+            <h1 class="hero-title">Welcome to Travel Guide</h1>
+            <p class="hero-subtitle">Adventure awaits... Start planning your perfect journey!</p>
+            <!-- Additional content can go here -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            © 2024 Travel Guide - All Rights Reserved
+        </div>
+    </footer>
+</body>
+</html>
