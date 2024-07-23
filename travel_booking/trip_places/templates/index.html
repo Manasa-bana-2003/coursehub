@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!..content goes here...!>
+</head>
+<body>
+    <!.. content goes here..!>
+</body>
+</html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device width,initial-scale=1.0">
+<title>Travel Planning</title>
+<link rel="stylesheet" href="{{url_for('static',filename='index.css')}}">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<header class="header">
+    <div class="container"
+         <!..content goes here ..!>
+    </div>
+</header>
+<a href="/" class="logo">Travel Planner</a>
+<nav class="nav">
+       <!-- Navigation links go here -->
+   </nav>
+ {% if session['role'] == 'user' or session['role'] == 'admin' %}
+       <a class="nav-link" href="/home">Home</a>
+       <a class="nav-link" href="/destinations">Destinations</a>
+       <a class="nav-link" href="/profile">Profile</a>
+       <a class="nav-link" href="/signout">Signout</a>
+{% else %}
+        <a href="/" class="nav-link">Home</a>
+       <a class="nav-link" href="/destinations">Destinations</a>
+       <a href="/signin" class="nav-link">Sign In</a>
+       <a href="/signup" class="nav-link">Sign Up</a>
+{% endif %}
+<main class="hero">
+       <div class="container">
+           <!-- Content goes here -->
+       </div>
+</main>
+<h1 class="hero-title">Welcome to Travel Planner</h1>
+   <p class="hero-subtitle">Discover your next adventure. Plan your perfect trip today!</p>
+<footer>
+       © 2024 Travel Planner - All Rights Reserved
+</footer>
+
