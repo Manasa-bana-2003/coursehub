@@ -6,8 +6,7 @@ body, html {
 }
 
 .header {
-    background-color: lightpink;
-    opacity: 0.5;
+    background-color: #7ccfa2;
     color: white;
     padding: 10px 0;
 }
@@ -19,16 +18,36 @@ body, html {
 }
 
 .header .logo {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 700;
     color: black;
     text-decoration: none;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Simple shadow */
+    transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
+.header .logo:hover {
+    color: white; /* Change color on hover */
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8); /* Enhanced shadow effect on hover */
+}
+
+
 .header .nav .nav-link {
-    color: black;
+    color: black; /* Link color */
     text-decoration: none;
     margin: 0 10px;
+    font-weight: bold; /* Make the text bold */
+    border: 2px solid black; /* Add border around the links */
+    border-radius: 4px; /* Optional: rounded corners for the border */
+    padding: 5px 10px; /* Optional: padding to make the border more visible */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition effect */
+}
+
+.header .nav .nav-link:hover,
+.header .nav .nav-link:focus,
+.header .nav .nav-link:active {
+    color: white; /* Change text color on hover, focus, active */
+    background-color: black; /* Change background color on hover, focus, active */
 }
 
 .hero {
@@ -52,7 +71,7 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4); /* Optional: darken the background for better text visibility */
+    background: rgba(0, 0, 0, 0.4); /* Darken the background for better text visibility */
 }
 
 .hero .container {
@@ -66,10 +85,29 @@ body, html {
     margin: 0 0 10px;
 }
 
+/* Semi-transparent text with visible borders */
+.transparent-text {
+    color: rgba(255, 255, 255); /* Adjust opacity for better visibility */
+    text-shadow:
+        2px 2px 3px rgba(0, 0, 0, 0.7), /* Slightly larger shadow for better visibility */
+        -2px -2px 3px rgba(0, 0, 0, 0.7),
+        2px -2px 3px rgba(0, 0, 0, 0.7),
+        -2px 2px 3px rgba(0, 0, 0, 0.7); /* Adjust shadow for a clearer border effect */
+}
+
 .hero-subtitle {
     font-size: 24px;
     font-weight: 400;
     margin: 0 0 20px;
+}
+/* Semi-transparent subtitle text with visible borders */
+.hero-subtitle {
+    color: rgba(255, 255, 255); /* Adjust opacity for better visibility */
+    text-shadow:
+        2px 2px 3px rgba(0, 0, 0, 0.7), /* Slightly larger shadow for better visibility */
+        -2px -2px 3px rgba(0, 0, 0, 0.7),
+        2px -2px 3px rgba(0, 0, 0, 0.7),
+        -2px 2px 3px rgba(0, 0, 0, 0.7); /* Adjust shadow for a clearer border effect */
 }
 
 .search-form {
@@ -81,14 +119,15 @@ body, html {
 .input-wrapper {
     position: relative;
 }
-
 .input-wrapper input[type="text"] {
     padding: 10px;
     font-size: 16px;
     border: none;
     border-radius: 4px;
     width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9); /* Add shadow effect */
 }
+
 
 .clear-btn {
     position: absolute;
@@ -106,10 +145,11 @@ body, html {
     font-size: 16px;
     border: none;
     border-radius: 4px;
-    background-color: #007BFF;
-    color: white;
+    background-color: #7ccfa2;
+    color: black;
     margin-left: 10px;
     cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9); /* Add black shadow effect */
 }
 
 footer {

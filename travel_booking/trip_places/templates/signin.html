@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='signup.css') }}">
+    <title>Signin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='signin.css') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .navbar {
@@ -17,7 +17,7 @@
             margin-top: 50px;
         }
         .form-container {
-            background-color:  #d3d3d3;
+            background-color: #d3d3d3;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -49,6 +49,9 @@
                     <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/destinations">Destinations</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/signin">Signin</a>
                 </li>
                 <li class="nav-item">
@@ -58,16 +61,12 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="form-container">
-                    <h2 class="text-center">SIGNUP</h2>
-                    <form action="/signup" method="POST">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Your name" required>
-                        </div>
+                    <h2 class="text-center mb-4">SIGNIN</h2>
+                    <form action="/signin" method="POST">
                         <div class="form-group">
                             <label for="email">Email address</label>
                             <input type="email" class="form-control" id="email" name="email" placeholder="Enter email address" required>
@@ -78,7 +77,10 @@
                             <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                         </div>
                         <div class="text-center mt-3">
-                            <button type="submit" class="mybutton">Signup</button>
+                            <a href="/admin_signin" class="text-black">Admin's Login</a>
+                        </div>
+                        <div class="text-center mt-3">
+                            <button type="submit" class="mybutton">Signin</button>
                         </div>
                     </form>
                 </div>

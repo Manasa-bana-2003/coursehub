@@ -3,11 +3,13 @@ body {
     background-color: #7ccfa2;
     margin: 0;
     padding: 0;
+    line-height: 1.6;
 }
 
 .navbar {
-    background-color: #7ccfa2;
     border-radius: 0;
+    padding: 1rem;
+    background-color:#7ccfa2;
 }
 
 .navbar .navbar-brand {
@@ -38,35 +40,56 @@ body {
 h2 {
     font-weight: bold;
     color: #333;
+    margin-bottom: 1.5rem;
 }
 
 .form-control {
     border-radius: 0.25rem;
+    padding: 0.75rem;
+    font-size: 1rem;
 }
 
 .mybutton {
-color: white;
+color: black;
 background:#7ccfa2;
 outline: none;
 border: none;
 padding: 10px;
 border-radius: 10px;
 font-weight:bold;
+
 }
 
 .btn-primary:hover {
-    background-color:  #7ccfa2;
-    border-color:  #7ccfa2;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.9);
+    background-color: #5ea885;
+    border-color: #5ea885;
 }
 
 .text-center a {
-    color: #7ccfa2;
+    color: black;
     font-weight: bold;
     transition: color 0.3s, text-decoration 0.3s;
 }
 
 .text-center a:hover {
-    color: #5ab68e;
+    color: #5ea885;
     text-decoration: underline;
+}
+
+.alert {
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+.alert-dismissible .close {
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.container {
+    padding-top: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
 }
