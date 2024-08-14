@@ -8,7 +8,6 @@
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/static/signin.css" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/profile.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/signin.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/travel_booking/db/.idea/workspace.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
