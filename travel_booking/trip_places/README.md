@@ -1,6 +1,6 @@
 TRAVEL GUIDE:
 
-Overview
+Overview:
 Travel Guide is a web-based application designed to provide users with comprehensive information about various travel destinations. The application allows users to browse destinations, view details, and manage their profiles. The project is built using Python, PostgreSQL, HTML, CSS, and JavaScript, focusing on clean design and user-friendly functionality.
 
 Features
