@@ -11,6 +11,7 @@ Detailed Destination Information: Each destination has detailed information, inc
 Consistent UI/UX: The application maintains a consistent design across all pages with smooth transitions and a cohesive color scheme.
 
 TECHNOLOGIES USED:
+
 Backend:
 
 Python: Core logic and handling of server-side functionality.
