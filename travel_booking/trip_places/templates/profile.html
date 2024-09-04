@@ -10,10 +10,11 @@
 <body>
     <div class="header">
         <div class="container">
-            <a href="#" class="logo">Travel Guide</a>
+            <a href="#" class="logo">Travel Planner</a>
             <nav class="nav">
                 <a class="nav-link" href="/home">Home</a>
                 <a class="nav-link" href="/destinations">Destinations</a>
+                <a class="nav-link" href="/cart">My Cart</a>
                 <a class="nav-link" href="/profile">Profile</a>
                 <a class="nav-link" href="/signout">Signout</a>
             </nav>
@@ -25,42 +26,10 @@
             <img src="/static/avatar.jpg" alt="Profile Picture" class="profile-img">
             <h2>{{ user.name }}</h2>
         </div>
-        <div class="profile-edit">
-            <div class="profile-edit-form">
-                <h3>Manage Account</h3>
-                <p>One Account For Everything</p>
-                <form method="POST" action="/profile/update">
-                    <div class="form-group">
-                        <label for="name">Your Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="{{ user.name }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                        <label for="bio">Bio</label>
-                        <textarea class="form-control" id="bio" name="bio">{{ user.bio }}</textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                </form>
-                <form>
-                    <!-- Places Section -->
-                    <div class="places-section">
-                        <h3>My Places</h3>
-                        <ul>
-                            {% for place in places %}
-                                <li>{{ place.name }} - {{ place.description }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <!-- End Places Section -->
-                </form>
-            </div>
+        <div class="profile-details">
+            <h3>Manage Account</h3>
+            <p>One Account For Everything</p>
+            <h3>My Bookings</h3>
         </div>
     </div>
 </body>
