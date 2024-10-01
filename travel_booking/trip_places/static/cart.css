@@ -14,46 +14,69 @@ body {
 .navbar .navbar-brand {
     font-weight: bold;
     font-size: 1.5rem;
-    color: black;
-    transition: color 0.3s ease; /* Smooth transition */
+    color: #7ccfa2;
+    transition: color 0.3s ease;
 }
 
 .navbar .navbar-brand:hover {
-    color: white; /* Change to white on hover */
+    color: white;
 }
 
 .navbar .nav-link {
     font-size: 1rem;
     margin-right: 15px;
-    color: black;
+    color: #7ccfa2;
     font-weight: bold;
-    transition: color 0.3s ease; /* Added transition for smooth effect */
+    transition: color 0.3s ease;
 }
 
 .navbar .nav-link:hover {
-    color: white; /* Change to the desired hover color */
+    color: #66b18e;
 }
 
-h2 {
+h1 {
     font-weight: bold;
     color: #333;
     margin-bottom: 1.5rem;
+    text-align: center;
 }
 
-.form-control {
-    border-radius: 0.25rem;
-    padding: 0.75rem;
-    font-size: 1rem;
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card-title a {
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.card-title a:hover {
+    color: #66b18e;
+}
+
+.card-img-top {
+    border-radius: 10px 10px 0 0;
+    height: 200px; /* Maintain consistent image height */
+    object-fit: cover;
 }
 
 .mybutton {
+    background-color: #7ccfa2;
     color: black;
-    background: #7ccfa2;
     outline: none;
     border: none;
     padding: 10px;
     border-radius: 10px;
     font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 
 .mybutton:hover {
@@ -87,4 +110,11 @@ h2 {
 
 .form-group {
     margin-bottom: 1.5rem;
+}
+
+.place-location .badge {
+    background-color: #7ccfa2;
+    color: black;
+    padding: 5px;
+    border-radius: 5px;
 }

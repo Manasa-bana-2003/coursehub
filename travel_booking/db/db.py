@@ -3,9 +3,11 @@ from psycopg2 import sql
 from werkzeug.security import generate_password_hash, check_password_hash
 import logging
 
+# Set up logging for debugging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Class to handle database connections
 class DatabaseConnection:
     def __init__(self, host, database, user, password):
         self.host = host
@@ -30,6 +32,7 @@ class DatabaseConnection:
             logger.error("Exception occurred: %s", exc_value)
         print("Database connection closed.")
 
+# Class to manage places in the database
 class Place:
     def __init__(self, host, database, user, password):
         self.db_params = (host, database, user, password)
@@ -78,18 +81,21 @@ class Place:
             conn.commit()
             cursor.close()
 
+# Class to hold place details
 class PlaceDetails:
-    def __init__(self, place_id, name, location, description, cost):
+    def __init__(self, place_id, name, location, description, cost, history=None):
         self.id = place_id
         self.name = name
         self.location = location
         self.description = description
         self.cost = cost
+        self.history = history or ""
 
     def __str__(self):
         return (f"place_id: {self.id}, Name: {self.name}, Description: {self.description[:60]}..., "
                 f"Location: {self.location}, Cost: {self.cost}")
 
+# Class to manage user operations in the database
 class User:
     def __init__(self, host, database, user, password):
         self.db_params = (host, database, user, password)
@@ -150,4 +156,42 @@ class User:
                 logger.error("Error updating user: %s", str(e))
                 raise e
             finally:
-                cursor
+                cursor.close()
+
+# Class to manage cart operations in the database
+class Cart:
+    def __init__(self, host, database, user, password):
+        self.db_params = (host, database, user, password)
+
+    def add_to_cart(self, user_id, place_id, people, days):
+        with DatabaseConnection(*self.db_params) as conn:
+            cursor = conn.cursor()
+            query = """
+                INSERT INTO cart (user_id, place_id, people, days)
+                VALUES (%s, %s, %s, %s)
+            """
+            cursor.execute(query, (user_id, place_id, people, days))
+            conn.commit()
+            cursor.close()
+
+    def remove_from_cart(self, user_id, place_id):
+        with DatabaseConnection(*self.db_params) as conn:
+            cursor = conn.cursor()
+            query = "DELETE FROM cart WHERE user_id = %s AND place_id = %s"
+            cursor.execute(query, (user_id, place_id))
+            conn.commit()
+            cursor.close()
+
+    def get_cart_items(self, user_id):
+        with DatabaseConnection(*self.db_params) as conn:
+            cursor = conn.cursor()
+            query = """
+                SELECT p.name, p.description, p.location, c.people, c.days
+                FROM cart c
+                JOIN place p ON c.place_id = p.place_id
+                WHERE c.user_id = %s
+            """
+            cursor.execute(query, (user_id,))
+            cart_items = cursor.fetchall()
+            cursor.close()
+        return cart_items

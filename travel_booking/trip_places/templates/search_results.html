@@ -43,41 +43,35 @@
             </ul>
         </div>
 
-        <div class="container h-75">
-            <div style="width:100%; margin-top: 3em;">
-                <form action="/results" method="GET">
-                    <div class="form-group" style="position: relative; display: flex; align-items: center;">
-                        <input type="search" name="search_term" autofocus class="form-control" id="exampleInputSearch" value="{{ search_term }}" placeholder="Search for places..." style="flex-grow: 1;">
-                        <button type="button" class="clear-btn" id="clear-btn">&times;</button>
-                        <button type="submit" style="margin-left: 5px;" class="btn btn-primary">Search</button>
-                    </div>
-                </form>
-
+ <div class="container h-75">
+    <div style="width:100%; margin-top: 3em;">
+        <form action="/results" method="GET">
+            <div class="form-group" style="position: relative; display: flex; align-items: center;">
+                <input type="search" name="search_term" autofocus class="form-control" id="exampleInputSearch" value="{{ search_term }}" placeholder="Search for places..." style="flex-grow: 1;">
+                <button type="button" class="clear-btn" id="clear-btn">&times;</button>
+                <button type="submit" style="margin-left: 5px;" class="btn btn-primary">Search</button>
             </div>
-            <div style="width:25%; margin-top: 3em;">
-                {% if places %}
-                    {% for place in places %}
-                        <div class="card book">
-                            <img src="{{ url_for('static', filename='bg.jpg') }}" class="card-img-top" alt="{{ place.name }}">
-                            <div class="card-body">
-                                <h5 class="card-title"><a href="/places/{{ place.place_id }}">{{ place.name }}</a></h5>
-                                <h8 class="card-title"><a href="/places/{{ place.place_id }}">{{ place.location }}</a></h8>
-                                <p class="card-text placedesc">{{ place.description }}</p>
-
-<!--                                <a href="/places/add/{{ place.place_id }}" class="btn btn-outline-warning"><i class="bi bi-journal-plus"></i> Add</a>-->
-<!--                            </div>-->
-<!--                            <form action="{{ url_for('add_course_to_profile', course_id=place.id) }}" method="post">-->
-<!--                                <button type="submit">Add to Profile</button>-->
-<!--                            </form>-->
-                        </div>
-
-                    {% endfor %}
-                {% else %}
-                    <p>No places found.</p>
-                {% endif %}
-            </div>
-        </div>
+        </form>
     </div>
+
+    <div class="places-container"> <!-- Add this container -->
+        {% if places %}
+            {% for place in places %}
+                <div class="card book place-item"> <!-- Add 'place-item' class here -->
+                    <img src="{{ url_for('static', filename='bg.jpg') }}" class="card-img-top" alt="{{ place.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="/places/{{ place.place_id }}">{{ place.name }}</a></h5>
+                        <h8 class="card-title"><a href="/places/{{ place.place_id }}">{{ place.location }}</a></h8>
+                        <p class="card-text placedesc">{{ place.description }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No places found.</p>
+        {% endif %}
+    </div>
+</div>
+
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

@@ -30,8 +30,8 @@ body {
 }
 
 .navbar .nav-link {
-    color:  black;
-    font-weight:bold;
+    color: black;
+    font-weight: bold;
     transition: color 0.3s ease;
 }
 
@@ -52,14 +52,14 @@ body {
     padding: 0.75rem 1.25rem;
     padding-right: 2.5rem;
     position: relative;
-    font-weight:bold;
+    font-weight: bold;
 }
 
 .form-control:focus {
     border-color: #7ccfa2; /* Border color when input is focused */
     box-shadow: 0 0 0 0.2rem rgba(124, 207, 162, 0.25); /* Shadow color when input is focused */
     outline: none;
-    font-weight:bold;
+    font-weight: bold;
 }
 
 .btn-primary {
@@ -73,7 +73,6 @@ body {
     background-color: #66b18e;
     border-color: #66b18e;
 }
-
 
 .book {
     width: 14rem;
@@ -134,8 +133,33 @@ body {
     transition: color 0.3s ease;
 }
 
-.clear-btn:hover {
+.clear-btn:hover,
 .clear-btn:focus {
     color: #333;
     outline: none;
-}}
+}
+
+/* Horizontal layout for places */
+.places-container {
+    display: flex;
+    flex-wrap: wrap; /* Ensure wrapping */
+    justify-content: space-between; /* Space between cards */
+    gap: 20px; /* Adds space between cards */
+}
+
+.place-item {
+    flex: 1 1 30%; /* Each card takes 30% of the container width */
+    margin: 10px; /* Space around each card */
+    max-width: 30%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow for cards */
+    transition: 0.3s; /* Smooth hover effect */
+}
+
+.place-item:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Hover effect */
+}
+
+.card-img-top {
+    height: 200px; /* Set image height */
+    object-fit: cover; /* Ensure image fits */
+}
