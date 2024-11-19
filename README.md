@@ -23,17 +23,3 @@ HTML5: Structure of the web pages.
 CSS3: Styling of the web pages, with specific files for Signin (signin.css) and Signup (signup.css) pages.
 JavaScript: Enhances interactivity on the web pages.
 
-Database Schema
-The application uses a PostgreSQL database with the following key tables:
-
-Users Table:-
-user_id: Primary key, unique identifier for each user.
-username: The username of the user.
-email: The email address of the user.
-password: The hashed password of the user.
-
-Place Table:-
-place_id: Primary key, unique identifier for each destination.
-name: The name of the destination.
-location: The geographical location of the destination.
-description: A detailed description of the destination.
