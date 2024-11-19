@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Planning</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='hotels.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="/" class="logo">Travel Planner</a>
+            <nav class="nav">
+                {% if session['role'] == 'user' or session['role'] == 'admin' %}
+                    <a class="nav-link" href="/home">Home</a>
+                    <a class="nav-link" href="/destinations">Destinations</a>
+                    <a href="/hotels_display" class="nav-link">Hotels</a>
+                    <a class="nav-link" href="/cart">My Cart</a>
+                    <a class="nav-link" href="/profile">Profile</a>
+                    <a class="nav-link signout" href="/signout">Signout</a>
+                {% else %}
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/destinations" class="nav-link">Destinations</a>
+                    <a href="/signin" class="nav-link signin">Sign In</a>
+                    <a href="/signout" class="nav-link signout">Sign out</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <!-- Places section -->
+    <section class="places-section">
+        <div class="container">
+            <h2>Your perfect stay awaits!!</h2>
+
+            <!-- Global Hotel Booking Form -->
+            <form method="POST" action="/search_hotels" class="booking-form">
+                <label for="check_in_date">Check-in Date:</label>
+                <input type="date" name="check_in_date" required>
+
+                <label for="check_out_date">Check-out Date:</label>
+
+                <input type="date" name="check_out_date" required>
+
+                <label for="number_of_rooms">Number of Rooms:</label>
+                <input type="number" name="number_of_rooms" min="1" required>
+
+                <button type="submit">Search Available Hotels</button>
+            </form>
+
+
+            <!-- Hotels List -->
+            <div class="places-container">
+                {% for hotel in hotels %}
+                    <div class="place-card">
+                        <img src="{{ url_for('static', filename='images/hotel.jpg') }}" alt="{{ hotel.name }}">
+                        <h3>{{ hotel.name }}</h3>
+                        <p>{{ hotel.location }}</p>
+                        <p>{{ hotel.price_per_night }} per night</p>
+                        <form method="POST" action="/search_hotels/{{ hotel.id }}" class="hotel-booking-form">
+                            <button type="submit">Book Now</button>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if session['role'] == 'admin' %}
+                <a class="nav-item nav-link btn btn-outline-success" href="/hotels/add">Add Hotel</a>
+                <form method="POST" action="/destinations/remove/{{ hotel.id }}">
+                    <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i> Remove</button>
+                </form>
+            {% endif %}
+        </div>
+    </section>
+
+    <main class="hero">
+        <div class="container">
+            <h1 class="hero-title">Find Your Perfect Stay</h1>
+            <form method="post" action="/hotel_search" class="search-form" onsubmit="return validateForm()">
+                <div class="input-wrapper">
+                    <input type="text" name="search" placeholder="Places to go, things to do, hotels..." id="search-input" required />
+                    <button type="submit" class="search-btn">Search</button>
+                </div>
+                <div class="search-options">
+                    <a href="/" class="option">Places</a>
+                    <a href="/hotel_search" class="option">Hotels</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 Travel Planner - All Rights Reserved</p>
+            <div class="social-links">
+                <a href="#" class="social-link">Facebook</a>
+                <a href="#" class="social-link">Twitter</a>
+                <a href="#" class="social-link">Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function validateForm() {
+            var searchInput = document.getElementById('search-input').value;
+            if (searchInput.trim() === "") {
+                alert("Please enter a search term.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>

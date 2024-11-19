@@ -23,7 +23,7 @@
                         <a class="nav-link" href="/profile">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/signout">Signout</a>
+                        <a class="nav-link" href="/signout">Sign out</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
@@ -42,7 +42,6 @@
 
             </ul>
         </div>
-
  <div class="container h-75">
     <div style="width:100%; margin-top: 3em;">
         <form action="/results" method="GET">
@@ -53,15 +52,14 @@
             </div>
         </form>
     </div>
-
     <div class="places-container"> <!-- Add this container -->
         {% if places %}
             {% for place in places %}
                 <div class="card book place-item"> <!-- Add 'place-item' class here -->
-                    <img src="{{ url_for('static', filename='bg.jpg') }}" class="card-img-top" alt="{{ place.name }}">
+                    <img src="{{ place.image_url }}" class="card-img-top" alt="{{ place.name }}">
                     <div class="card-body">
                         <h5 class="card-title"><a href="/places/{{ place.place_id }}">{{ place.name }}</a></h5>
-                        <h8 class="card-title"><a href="/places/{{ place.place_id }}">{{ place.location }}</a></h8>
+                        <h6 class="card-title"><a href="/places/{{ place.place_id }}">{{ place.location }}</a></h6>
                         <p class="card-text placedesc">{{ place.description }}</p>
                     </div>
                 </div>
@@ -71,8 +69,6 @@
         {% endif %}
     </div>
 </div>
-
-
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -81,5 +77,6 @@
             document.getElementById('exampleInputSearch').value = '';
         });
     </script>
+    </div>
 </body>
 </html>

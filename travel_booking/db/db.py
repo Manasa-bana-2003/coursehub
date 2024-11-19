@@ -17,12 +17,16 @@ class DatabaseConnection:
         self.connection = None
 
     def __enter__(self):
-        self.connection = psycopg2.connect(
-            host=self.host,
-            database=self.database,
-            user=self.user,
-            password=self.password
-        )
+        try:
+            self.connection = psycopg2.connect(
+                host=self.host,
+                database=self.database,
+                user=self.user,
+                password=self.password
+            )
+        except psycopg2.DatabaseError as e:
+            logger.error(f"Database connection error: {str(e)}")
+            raise e
         return self.connection
 
     def __exit__(self, exc_type, exc_value, traceback):
@@ -32,6 +36,21 @@ class DatabaseConnection:
             logger.error("Exception occurred: %s", exc_value)
         print("Database connection closed.")
 
+# Class to hold place details
+class PlaceDetails:
+    def __init__(self, place_id, name, location, description, cost, image_url, history=None):
+        self.id = place_id
+        self.name = name
+        self.location = location
+        self.description = description
+        self.cost = cost
+        self.image_url = image_url
+        self.history = history or ""
+
+    def __str__(self):
+        return (f"place_id: {self.id}, Name: {self.name}, Description: {self.description[:60]}..., "
+                f"Location: {self.location}, Cost: {self.cost}, Image URL: {self.image_url}")
+
 # Class to manage places in the database
 class Place:
     def __init__(self, host, database, user, password):
@@ -40,7 +59,7 @@ class Place:
     def fetch_places(self, search_term=None):
         with DatabaseConnection(*self.db_params) as conn:
             cursor = conn.cursor()
-            query = "SELECT * FROM place"
+            query = "SELECT place_id, name, location, description, cost, image_url FROM place"
             if search_term:
                 query += " WHERE name ILIKE %s OR location ILIKE %s"
                 cursor.execute(query, (f'%{search_term}%', f'%{search_term}%'))
@@ -49,27 +68,27 @@ class Place:
             places_data = cursor.fetchall()
             cursor.close()
         places = [PlaceDetails(*place_data) for place_data in places_data]
-        return places
+        return places or []
 
     def get_place_by_id(self, place_id):
         with DatabaseConnection(*self.db_params) as conn:
             cursor = conn.cursor()
-            query = "SELECT * FROM place WHERE place_id = %s"
+            query = "SELECT place_id, name, location, description, cost, image_url FROM place WHERE place_id = %s"
             cursor.execute(query, (place_id,))
             place_data = cursor.fetchone()
             cursor.close()
         if place_data:
-            return PlaceDetails(*place_data)
+            return PlaceDetails(*place_data)  # Ensure this fetches image_url
         return None
 
-    def add_place(self, name, location, description, cost):
+    def add_place(self, name, location, description, cost, image_url):
         with DatabaseConnection(*self.db_params) as conn:
             cursor = conn.cursor()
             query = """
-                INSERT INTO place (name, location, description, cost)
-                VALUES (%s, %s, %s, %s)
+                INSERT INTO place (name, location, description, cost, image_url)
+                VALUES (%s, %s, %s, %s, %s)
             """
-            cursor.execute(query, (name, location, description, cost))
+            cursor.execute(query, (name, location, description, cost, image_url))
             conn.commit()
             cursor.close()
 
@@ -81,24 +100,27 @@ class Place:
             conn.commit()
             cursor.close()
 
-# Class to hold place details
-class PlaceDetails:
-    def __init__(self, place_id, name, location, description, cost, history=None):
-        self.id = place_id
-        self.name = name
-        self.location = location
-        self.description = description
-        self.cost = cost
-        self.history = history or ""
-
-    def __str__(self):
-        return (f"place_id: {self.id}, Name: {self.name}, Description: {self.description[:60]}..., "
-                f"Location: {self.location}, Cost: {self.cost}")
-
 # Class to manage user operations in the database
 class User:
     def __init__(self, host, database, user, password):
-        self.db_params = (host, database, user, password)
+        self.connection = psycopg2.connect(host=host, database=database, user=user, password=password)
+        self.cursor = self.connection.cursor()
+
+    def authenticate(self, email, password):
+        query = "SELECT user_id FROM Users WHERE email = %s AND password = %s"
+        self.cursor.execute(query, (email, password))
+        result = self.cursor.fetchone()
+        return result[0] if result else None
+
+    def get_user_name(self, user_id):
+        query = "SELECT name FROM Users WHERE user_id = %s"
+        self.cursor.execute(query, (user_id,))
+        result = self.cursor.fetchone()
+        return result[0] if result else None
+
+    def close(self):
+        self.cursor.close()
+        self.connection.close()
 
     def add_user(self, name, email, password):
         with DatabaseConnection(*self.db_params) as conn:
@@ -170,23 +192,35 @@ class Cart:
                 INSERT INTO cart (user_id, place_id, people, days)
                 VALUES (%s, %s, %s, %s)
             """
-            cursor.execute(query, (user_id, place_id, people, days))
-            conn.commit()
-            cursor.close()
+            try:
+                cursor.execute(query, (user_id, place_id, people, days))
+                conn.commit()
+            except Exception as e:
+                conn.rollback()
+                logger.error("Error adding to cart: %s", str(e))
+                raise e
+            finally:
+                cursor.close()
 
     def remove_from_cart(self, user_id, place_id):
         with DatabaseConnection(*self.db_params) as conn:
             cursor = conn.cursor()
             query = "DELETE FROM cart WHERE user_id = %s AND place_id = %s"
-            cursor.execute(query, (user_id, place_id))
-            conn.commit()
-            cursor.close()
+            try:
+                cursor.execute(query, (user_id, place_id))
+                conn.commit()
+            except Exception as e:
+                conn.rollback()
+                logger.error("Error removing from cart: %s", str(e))
+                raise e
+            finally:
+                cursor.close()
 
     def get_cart_items(self, user_id):
         with DatabaseConnection(*self.db_params) as conn:
             cursor = conn.cursor()
             query = """
-                SELECT p.name, p.description, p.location, c.people, c.days
+                SELECT p.name, p.description, p.location, p.image_url, c.people, c.days, p.place_id
                 FROM cart c
                 JOIN place p ON c.place_id = p.place_id
                 WHERE c.user_id = %s
@@ -195,3 +229,109 @@ class Cart:
             cart_items = cursor.fetchall()
             cursor.close()
         return cart_items
+
+
+class HotelDetails:
+    def __init__(self, hotel_id, name, location, place, price_per_night):
+        self.id = hotel_id
+        self.name = name
+        self.location = location
+        self.place = place
+        self.price_per_night = price_per_night
+    def __str__(self):
+        return (f"Hotel ID: {self.id}, Name: {self.name}, Location: {self.location}, "
+
+                f"Place: {self.place}, Price per Night: {self.price_per_night}")
+class Hotels:
+    def __init__(self, host, database, user, password):
+        self.db_params = (host, database, user, password)
+    def fetch_hotels(self, search_term=None):
+        with DatabaseConnection(*self.db_params) as conn:
+            cursor = conn.cursor()
+            query = "SELECT * FROM hotels"
+            if search_term:
+                query += " WHERE place ILIKE %s OR name ILIKE %s"
+                cursor.execute(query, (f'%{search_term}%', f'%{search_term}%'))
+            else:
+                cursor.execute(query)
+            hotels_data = cursor.fetchall()
+            cursor.close()
+        hotels = [HotelDetails(*hotel_data) for hotel_data in hotels_data]
+        return hotels
+    def add_hotel(self, name, location, place, price_per_night):
+        with DatabaseConnection(*self.db_params) as conn:
+            cursor = conn.cursor()
+            query = """ 
+                INSERT INTO hotels (name,location,place,price_per_night) 
+                VALUES (%s, %s, %s,%s) 
+            """
+            cursor.execute(query, (name, location, place, price_per_night))
+            conn.commit()
+            cursor.close()
+    def remove_hotel(self, hotel_id):
+        with DatabaseConnection(*self.db_params) as conn:
+            cursor = conn.cursor()
+            query = "DELETE FROM hotels WHERE id = %s"
+            cursor.execute(query, (hotel_id,))
+            conn.commit()
+            cursor.close()
+
+
+class HotelBooking:
+    def __init__(self, host, database, user, password):
+        self.host = host
+        self.database = database
+        self.user = user
+        self.password = password
+
+    def get_connection(self):
+        """Creates and returns a new database connection."""
+        return psycopg2.connect(
+            host=self.host,
+            database=self.database,
+            user=self.user,
+            password=self.password
+        )
+
+    def create_booking(self, user_id, hotel_id, check_in_date, check_out_date, number_of_rooms, total_price):
+        """Inserts a new booking into the hotel_bookings table."""
+        query = """
+            INSERT INTO hotel_bookings (user_id, hotel_id, check_in_date, check_out_date, number_of_rooms, total_price)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """
+        params = (user_id, hotel_id, check_in_date, check_out_date, number_of_rooms, total_price)
+
+        with self.get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(query, params)
+                conn.commit()
+
+    def get_bookings_by_user(self, user_id):
+        """Fetches all bookings for a specific user from the hotel_bookings table."""
+        query = "SELECT * FROM hotel_bookings WHERE user_id = %s"
+
+        with self.get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(query, (user_id,))
+                return cur.fetchall()
+
+    def get_available_hotels(self, check_in_date, check_out_date, number_of_rooms):
+        """Fetches available hotels based on the provided dates and number of rooms."""
+        query = """
+            SELECT hotels.*
+            FROM hotels
+            LEFT JOIN hotel_bookings ON hotels.id = hotel_bookings.hotel_id
+            WHERE hotels.available_rooms >= %s 
+            AND (
+                hotel_bookings.check_out_date <= %s 
+                OR hotel_bookings.check_in_date >= %s 
+                OR hotel_bookings.hotel_id IS NULL
+            )
+            GROUP BY hotels.id
+        """
+        params = (number_of_rooms, check_in_date, check_out_date)
+
+        with self.get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(query, params)
+                return cur.fetchall()

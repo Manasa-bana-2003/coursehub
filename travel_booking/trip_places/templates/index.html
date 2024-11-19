@@ -13,11 +13,12 @@
             <a href="/" class="logo">Travel Guide</a>
             <nav class="nav">
                 {% if session['role'] == 'user' or session['role'] == 'admin' %}
-                    <a class="nav-link" href="/home">Home</a>
+                    <a class="nav-link" href="/">Home</a>
                     <a class="nav-link" href="/destinations">Destinations</a>
+                    <a class="nav-link" href="/hotels_display">Hotels</a>
                     <a class="nav-link" href="/cart">My Cart</a>
                     <a class="nav-link" href="/profile">Profile</a>
-                    <a class="nav-link" href="/signout">Signout</a>
+                    <a class="nav-link signout" href="/signout">Signout</a>
                 {% else %}
                     <a class="nav-link" href="/">Home</a>
                     <a class="nav-link" href="/destinations">Destinations</a>
@@ -28,32 +29,36 @@
         </div>
     </header>
 
-    <main class="hero">
+    <!-- Search bar section -->
+    <<main class="hero">
         <div class="container">
             <h1 class="hero-title transparent-text">Welcome to Travel Guide</h1>
             <p class="hero-subtitle transparent-text">Adventure awaits... Start planning your perfect journey!</p>
-            <!-- Additional content can go here -->
             <form method="post" action="/" class="search-form" onsubmit="return validateForm()">
                 <div class="input-wrapper">
-                    <input type="text" name="search" placeholder="Explore destinations, events and more..." id="search-input" required />
-                    <button type="button" class="clear-btn" id="clear-btn">&times;</button>
+                    <input type="text" name="search" placeholder="Places to go, things to do, hotels..." id="search-input" required />
+                    <button type="submit" class="search-btn">Search</button>
                 </div>
-                <button type="submit" class="search-btn">Search</button>
+                <div class="search-options">
+                    <a href="/" class="nav-link">Places</a>
+                    <a href="/hotel_search" class="nav-link">Hotels</a>
+                </div>
             </form>
         </div>
     </main>
 
-    <footer>
+    <footer class="footer">
         <div class="container">
-            © 2024 Travel Guide - All Rights Reserved
+            <p>© 2024 Travel Guide - All Rights Reserved</p>
+            <div class="social-links">
+                <a href="#" class="social-link">Facebook</a>
+                <a href="#" class="social-link">Twitter</a>
+                <a href="#" class="social-link">Instagram</a>
+            </div>
         </div>
     </footer>
 
     <script>
-        document.getElementById('clear-btn').addEventListener('click', function() {
-            document.getElementById('search-input').value = '';
-        });
-
         function validateForm() {
             var searchInput = document.getElementById('search-input').value;
             if (searchInput.trim() === "") {

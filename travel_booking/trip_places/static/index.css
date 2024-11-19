@@ -1,10 +1,12 @@
-/* Ensuring the image covers the entire background */
+/* Reset margins and padding for full-screen background */
 body, html {
     margin: 0;
     padding: 0;
     font-family: 'Playfair', sans-serif;
+    height: 100%;
 }
 
+/* Header styles */
 .header {
     background-color: #7ccfa2;
     color: white;
@@ -22,40 +24,40 @@ body, html {
     font-weight: 700;
     color: black;
     text-decoration: none;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Simple shadow */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
     transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 .header .logo:hover {
-    color: white; /* Change color on hover */
-    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8); /* Enhanced shadow effect on hover */
+    color: white;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
 }
 
-
 .header .nav .nav-link {
-    color: black; /* Link color */
+    color: black;
     text-decoration: none;
     margin: 0 10px;
-    font-weight: bold; /* Make the text bold */
-    border: 2px solid black; /* Add border around the links */
-    border-radius: 4px; /* Optional: rounded corners for the border */
-    padding: 5px 10px; /* Optional: padding to make the border more visible */
-    transition: background-color 0.3s, color 0.3s; /* Smooth transition effect */
+    font-weight: bold;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 5px 10px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .header .nav .nav-link:hover,
 .header .nav .nav-link:focus,
 .header .nav .nav-link:active {
-    color: white; /* Change text color on hover, focus, active */
-    background-color: black; /* Change background color on hover, focus, active */
+    color: white;
+    background-color: black;
 }
 
+/* Hero section styling */
 .hero {
     background-image: url('images/travel.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 100vh; /* Full viewport height */
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -71,7 +73,7 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4); /* Darken the background for better text visibility */
+    background: rgba(0, 0, 0, 0.4); /* Dark overlay for text visibility */
 }
 
 .hero .container {
@@ -82,34 +84,27 @@ body, html {
 .hero-title {
     font-size: 48px;
     font-weight: 700;
-    margin: 0 0 10px;
-}
-
-/* Semi-transparent text with visible borders */
-.transparent-text {
-    color: rgba(255, 255, 255); /* Adjust opacity for better visibility */
+    margin-bottom: 10px;
+    color: rgba(255, 255, 255, 0.9);
     text-shadow:
-        2px 2px 3px rgba(0, 0, 0, 0.7), /* Slightly larger shadow for better visibility */
-        -2px -2px 3px rgba(0, 0, 0, 0.7),
-        2px -2px 3px rgba(0, 0, 0, 0.7),
-        -2px 2px 3px rgba(0, 0, 0, 0.7); /* Adjust shadow for a clearer border effect */
+        2px 2px 4px rgba(0, 0, 0, 0.7),
+        -2px -2px 4px rgba(0, 0, 0, 0.7),
+        2px -2px 4px rgba(0, 0, 0, 0.7),
+        -2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .hero-subtitle {
     font-size: 24px;
     font-weight: 400;
-    margin: 0 0 20px;
-}
-/* Semi-transparent subtitle text with visible borders */
-.hero-subtitle {
-    color: rgba(255, 255, 255); /* Adjust opacity for better visibility */
+    color: rgba(255, 255, 255, 0.9);
     text-shadow:
-        2px 2px 3px rgba(0, 0, 0, 0.7), /* Slightly larger shadow for better visibility */
+        2px 2px 3px rgba(0, 0, 0, 0.7),
         -2px -2px 3px rgba(0, 0, 0, 0.7),
         2px -2px 3px rgba(0, 0, 0, 0.7),
-        -2px 2px 3px rgba(0, 0, 0, 0.7); /* Adjust shadow for a clearer border effect */
+        -2px 2px 3px rgba(0, 0, 0, 0.7);
 }
 
+/* Search form styling */
 .search-form {
     display: flex;
     justify-content: center;
@@ -119,15 +114,15 @@ body, html {
 .input-wrapper {
     position: relative;
 }
+
 .input-wrapper input[type="text"] {
     padding: 10px;
     font-size: 16px;
     border: none;
     border-radius: 4px;
     width: 300px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9); /* Add shadow effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
 }
-
 
 .clear-btn {
     position: absolute;
@@ -149,15 +144,15 @@ body, html {
     color: black;
     margin-left: 10px;
     cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9); /* Add black shadow effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
 }
 
+/* Footer styling */
 footer {
     background-color: #333;
     color: white;
     text-align: center;
     padding: 10px 0;
-    position: absolute;
-    bottom: 0;
     width: 100%;
+    position: relative;
 }

@@ -2,67 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Your Cart</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='destinations.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='cart.css') }}">
+    <title>My Cart</title>
 </head>
 <body>
-    <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
-            <a class="navbar-brand" href="/">Travel Guide</a>
-            <div class="navbar-nav ml-auto">
-                <a class="nav-item nav-link" href="/">Home</a>
-                <a class="nav-link" href="/destinations">Destinations</a>
-                <a class="nav-item nav-link" href="/profile">Profile</a>
-                <a class="nav-item nav-link" href="/signout">Sign Out</a>
-                <a class="nav-item nav-link" href="/cart">Cart</a>
-                {% if session['role'] == 'admin' %}
-                    <a class="nav-item nav-link btn btn-outline-success" href="/destinations/add">Add Destination</a>
-                {% endif %}
-            </div>
-        </nav>
-
+<header class="header">
         <div class="container">
-            <h1 class="mb-4">Your Cart</h1>
-            <div class="row">
-                {% if cart_items %}
-                    {% for place in cart_items %}
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <img src="{{ url_for('static', filename='images/bg.jpg') }}" class="card-img-top" alt="{{ place.name }}">
-                            <div class="card-body">
-                                <h5 class="card-title place-name">
-                                    <a href="/destinations/{{ place.id }}">{{ place.name }}</a>
-                                </h5>
-                                <p class="card-text">{{ place.description }}</p>
-                                <p class="card-text place-location">
-                                    <span class="badge badge-primary">{{ place.location }}</span>
-                                </p>
-                                <form method="POST" action="/cart/remove/{{ place.id }}">
-                                    <button type="submit" class="btn mybutton"><i class="bi bi-trash"></i> Remove</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
+            <a href="/" class="logo">Travel Guide</a>
+            <nav class="nav">
+                {% if session['role'] == 'user' or session['role'] == 'admin' %}
+                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="/destinations">Destinations</a>
+                    <a class="nav-link" href="/hotels_display">Hotels</a>
+                    <a class="nav-link" href="/cart">My Cart</a>
+                    <a class="nav-link" href="/profile">Profile</a>
+                    <a class="nav-link signout" href="/signout">Signout</a>
                 {% else %}
-                    <p class="text-center">Your cart is empty. Start adding places to your cart!</p>
+                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="/destinations">Destinations</a>
+                    <a class="nav-link" href="/signin">Sign In</a>
+                    <a class="nav-link" href="/signup">Sign Up</a>
                 {% endif %}
-            </div>
-            <div class="row">
-                <div class="col-md-12 text-right">
-                    <form method="POST" action="/checkout">
-                        <button type="submit" class="btn btn-success mybutton"><i class="bi bi-cart-check"></i> Checkout</button>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <h1>My Cart</h1>
+        <div class="destinations-list">
+            {% for place in cart_items %}
+                <div class="destination-card">
+                    <img src="{{ place[3] }}" class="card-img-top" alt="{{ place[0] }}">
+                    <h2>{{ place[0] }}</h2>
+                    <p>{{ place[1] }}</p>
+                    <p>{{ place[2] }}</p>
+                    <!-- Remove from Cart Button -->
+                    <form action="/cart/remove/{{ place[6] }}" method="POST">
+                        <button type="submit" class="remove-btn">Remove from Cart</button>
                     </form>
                 </div>
-            </div>
+            {% else %}
+                <p>No items in the cart.</p>
+            {% endfor %}
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7Hube39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

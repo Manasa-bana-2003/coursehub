@@ -1,4 +1,4 @@
-from werkzeug.security import generate_password_hash
+'''from werkzeug.security import generate_password_hash
 
 def generate_hashed_password(plain_password):
     # Generate a hashed password
@@ -12,4 +12,19 @@ def main():
     print("Hashed Password:", hashed_password)
 
 if __name__ == "__main__":
-    main()
+    main()'''
+
+'''from flask import Flask,request,render_template
+app=Flask(__name__)
+@app.route('/')
+def form():
+    return render_template('form.html')
+@app.route('/submit',methods=['POST'])
+def submit_form():
+    name=request.form['name']
+    email=request.form['email']
+    return f"Received Name:{name}, Email:{email} "
+if __name__=='__main__':
+    app.run(debug=True)'''
+
+

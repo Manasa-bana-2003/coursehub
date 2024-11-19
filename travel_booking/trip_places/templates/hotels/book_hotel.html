@@ -1,0 +1,49 @@
+<!-- book_hotel.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotel Booking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/book_hotel.css') }}">
+</head>
+<body>
+    <h2>Book Your Hotel</h2>
+    <form action="{{ url_for('book_hotel') }}" method="POST">
+        <!-- Hotel Selection -->
+        <div>
+            <label for="hotel_id">Select Hotel:</label>
+            <select id="hotel_id" name="hotel_id">
+                <option value="1">Hotel Sunshine</option>
+                <option value="2">Hotel Paradise</option>
+                <!-- Add more hotels here -->
+            </select>
+        </div>
+
+        <!-- Check-in and Check-out Dates -->
+        <div>
+            <label for="check_in_date">Check-in Date:</label>
+            <input type="date" id="check_in_date" name="check_in_date" required>
+        </div>
+
+        <div>
+            <label for="check_out_date">Check-out Date:</label>
+            <input type="date" id="check_out_date" name="check_out_date" required>
+        </div>
+
+        <!-- Number of Rooms -->
+        <div>
+            <label for="number_of_rooms">Number of Rooms:</label>
+            <input type="number" id="number_of_rooms" name="number_of_rooms" min="1" required>
+        </div>
+
+        <!-- Total Price -->
+        <div>
+            <label for="total_price">Total Price:</label>
+            <input type="text" id="total_price" name="total_price" placeholder="Auto-calculated or enter manually" required>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit">Book Hotel</button>
+    </form>
+</body>
+</html>
