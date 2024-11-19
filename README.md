@@ -25,18 +25,18 @@ Book hotels with the number of rooms required.
 View booking details in the user profile.
 
 📋 Requirements
-System Requirements
-Python 3.8 or above
-PyCharm (or any Python IDE)
-MySQL server (to manage the database)
-Python Libraries
+* System Requirements
+* Python 3.8 or above
+* PyCharm (or any Python IDE)
+* MySQL server (to manage the database)
+* Python Libraries
 
 The required libraries are listed in the requirements.txt file. Key libraries include:
-Flask
-Flask-WTF
-Flask-SQLAlchemy
-Werkzeug
-MySQL-connector-python
+* Flask
+* Flask-WTF
+* Flask-SQLAlchemy
+* Werkzeug
+* MySQL-connector-python
 
 💻 How to Set Up and Run the Application:
 1. Clone the Repository
