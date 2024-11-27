@@ -42,7 +42,6 @@
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/hotels.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/search_hotels.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/update_hotel.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/travel_booking/db/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/travel_booking/db/db.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/travel_booking/trip_places/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/travel_booking/trip_places/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/travel_booking/trip_places/static/profile.css" beforeDir="false" afterPath="$PROJECT_DIR$/travel_booking/trip_places/static/profile.css" afterDir="false" />

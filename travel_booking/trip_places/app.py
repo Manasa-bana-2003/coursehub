@@ -175,31 +175,21 @@ def signout():
     flash('You have been signed out.', 'info')
     return redirect(url_for('signin'))
 
-
 @app.route('/hotels', methods=['GET', 'POST'])
 def hotels():
     hotel_instance = Hotels(db_host, db_database, db_user, db_password)
-
-    # If the form is submitted, use the search term to filter results
+    hotels = hotel_instance.fetch_hotels()
     if request.method == 'POST':
         search_term = request.form.get('search')
         return redirect(url_for('hotel_search_results', search_term=search_term))
-
-    # If no search term, fetch all hotels
-    hotels = hotel_instance.fetch_hotels()
-    return render_template('hotels.html', hotels=hotels)
-
+    return render_template('hotels/hotels.html', hotels=hotels)
 
 @app.route('/hotel_search_results', methods=['GET'])
 def hotel_search_results():
     search_term = request.args.get('search_term', '')
     hotel_instance = Hotels(db_host, db_database, db_user, db_password)
-
-    # Fetch hotels based on the search term
     hotels = hotel_instance.fetch_hotels(search_term)
-
-    return render_template('hotels.html', hotels=hotels, search_term=search_term)
-
+    return render_template('hotels/hotel_search_results.html', hotels=hotels, search_term=search_term)
 
 @app.route('/hotels/add', methods=['GET', 'POST'])
 def add_hotel():
@@ -243,21 +233,28 @@ def add_destination():
     flash('Unauthorized access.', 'danger')
     return redirect(url_for('signin'))
 
+from datetime import datetime
 
-@app.route('/book_hotel/<int:hotel_id>', methods=['GET', 'POST'])
-def book_hotel(hotel_id):
+
+@app.route('/book_hotel', methods=['GET', 'POST'])
+def book_hotel():
     if 'user_id' in session:
+        user_id = session['user_id']
+
+        # Fetch the list of hotels from the database
+        hotels = Hotel.query.all()  # Assuming you have a Hotel model to fetch data from the 'hotels' table
+
         if request.method == 'POST':
-            # Fetch user details and booking info from form
+            hotel_id = request.form.get('hotel_id')
             check_in_date = request.form.get('check_in_date')
             check_out_date = request.form.get('check_out_date')
             number_of_rooms = request.form.get('number_of_rooms')
-            total_price = request.form.get('total_price')  # You can calculate this based on the hotel price
+            total_price = request.form.get('total_price')
 
-            # Use HotelBooking to create a booking
-            hotel_booking_instance = HotelBooking(db_host, db_database, db_user, db_password)
+            # Use the HotelBooking instance to create the booking
+            hotel_booking_instance = HotelBooking()
             hotel_booking_instance.create_booking(
-                user_id=session['user_id'],
+                user_id=user_id,
                 hotel_id=hotel_id,
                 check_in_date=check_in_date,
                 check_out_date=check_out_date,
@@ -266,60 +263,41 @@ def book_hotel(hotel_id):
             )
 
             flash('Hotel booked successfully!', 'success')
-            return redirect(url_for('profile'))
-        else:
-            # Render the hotel booking form (GET request)
-            hotel_booking_instance = HotelBooking(db_host, db_database, db_user, db_password)
-            hotel = hotel_booking_instance.get_hotel_by_id(hotel_id)  # Fetch hotel details by hotel_id
+            return redirect(url_for('booking_confirmation'))
 
-            return render_template('book_hotel.html', hotel=hotel)
+        return render_template('book_hotel.html', hotels=hotels)
+    else:
+        flash('Please sign in first.', 'warning')
+        return redirect(url_for('signin'))
+
+
+@app.route('/search_hotels', methods=['GET', 'POST'])
+def search_hotels():
+    if 'user_id' in session:
+        user_id = session['user_id']
+
+        # Default to empty list if no hotels are found
+        available_hotels = []
+
+        if request.method == 'POST':
+            check_in_date = request.form.get('check_in_date')
+            check_out_date = request.form.get('check_out_date')
+            number_of_rooms = int(request.form.get('number_of_rooms'))
+
+            # Query available hotels based on check-in and check-out dates and number of rooms
+            # Example: Make sure to modify this according to your actual database structure and logic
+            available_hotels = db.session.query(Hotel).filter(
+                Hotel.rooms_available >= number_of_rooms,
+                Hotel.check_in_date <= check_in_date,
+                Hotel.check_out_date >= check_out_date
+            ).all()
+
+        return render_template('search_hotels.html', available_hotels=available_hotels)
 
     else:
         flash('Please sign in first.', 'warning')
         return redirect(url_for('signin'))
 
-@app.route('/search_hotels', methods=['GET', 'POST'])
-def search_hotels():
-    query = """
-    SELECT id, name, location, place, price_per_night, available_rooms
-    FROM hotels
-    """
-    available_hotels = []
-    with psycopg2.connect(
-        host="localhost",
-        database="new_db",
-        user="manasa",
-        password="1234"
-    ) as conn:
-        with conn.cursor() as cursor:
-            if request.method == 'POST':
-                print("Form submitted!")
-                check_in_date = request.form['check_in_date']
-                check_out_date = request.form['check_out_date']
-                number_of_rooms = int(request.form['number_of_rooms'])
-                print(f"Check-in Date: {check_in_date}, Check-out Date: {check_out_date}, Number of Rooms: {number_of_rooms}")
-
-                # Modify query to include filtering
-                query += " WHERE available_rooms >= %s"
-                cursor.execute(query, (number_of_rooms,))
-            else:
-                # No filters for GET request
-                cursor.execute(query)
-
-            available_hotels = cursor.fetchall()
-# Convert hotel data into dictionaries for rendering
-    hotels_data = [
-        {
-            "id": row[0],
-            "name": row[1],
-            "location": row[2],
-            "place": row[3],
-            "price_per_night": row[4],
-            "available_rooms": row[5]
-        }
-        for row in available_hotels
-    ]
-    return render_template('hotels.html', available_hotels=hotels_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
