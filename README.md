@@ -25,11 +25,11 @@ Book hotels with the number of rooms required.
 View booking details in the user profile.
 
 📋 Requirements
-* System Requirements
+
 * Python 3.8 or above
-* PyCharm (or any Python IDE)
-* MySQL server (to manage the database)
-* Python Libraries
+* PyCharm community edition (or any Python IDE)
+*  Postgre sql (version 15.7)
+* Python Libraries like Flask, render_template, request, redirect, url_for, session, flash.
 
 The required libraries are listed in the requirements.txt file. Key libraries include:
 * Flask
