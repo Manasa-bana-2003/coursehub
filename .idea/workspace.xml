@@ -33,9 +33,15 @@
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/static/images/the_louvre.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/static/images/venice_canals.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/static/images/victoria_falls.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/static/search_hotels.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/book_hotel.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/booking_confirmation.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/cart.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/hotels/book_hotel.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/hotels/booking_confirmation.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/hotel_display.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/hotel_results.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/hotels.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/search_hotels.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/update_hotel.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/travel_booking/db/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/travel_booking/db/db.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/travel_booking/trip_places/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/travel_booking/trip_places/README.md" afterDir="false" />
@@ -75,6 +81,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
   <component name="ProjectId" id="2hAyixXVBwt4O3VYsxyRCQPjxm9" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -89,7 +98,8 @@
     &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/manasa/PycharmProjects/pythonProject1&quot;
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/manasa/PycharmProjects/pythonProject1&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -294,5 +304,16 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Updated" />
     <option name="LAST_COMMIT_MESSAGE" value="Updated" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

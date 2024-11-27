@@ -4,54 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
-    <link rel="stylesheet" href="/static/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/profile.css" />
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
-        <div class="container">
-            <a href="/" class="logo">Travel Planner</a>
+    <div class="container">
+        <div class="header">
+            <a href="#" class="logo">Travel Planner</a>
             <nav class="nav">
-                <a class="nav-item nav-link" href="/">Home</a>
+                <a class="nav-link" href="/">Home</a>
                 <a class="nav-link" href="/destinations">Destinations</a>
+                <a class="nav-link" href="/hotels_display">Hotels</a>
                 <a class="nav-link" href="/cart">My Cart</a>
                 <a class="nav-link" href="/profile">Profile</a>
                 <a class="nav-link" href="/signout">Signout</a>
             </nav>
         </div>
-    </div>
 
-    <!-- Profile Section -->
-    <div class="container profile-container">
-        <!-- Profile Card -->
-        <div class="profile-card">
-            <img src="{{ url_for('static', filename='images/avatar.jpg') }}" alt="Your Profile" class="profile-img">
-            <h2>{{ user_name }}</h2>
-            <p>One Account For Everything</p>
+        <div class="profile-card text-center mt-5">
+            <img src="/static/avatar.jpg" alt="Profile Picture" class="profile-img rounded-circle">
+            <h2>{{ user.name }}</h2>
         </div>
 
-        <!-- Account Management and Bookings -->
-        <div class="profile-details">
+        <div class="profile-details mt-3">
             <h3>Manage Account</h3>
-            <p>Update your account settings and preferences here.</p>
+            <p>One Account For Everything</p>
 
             <h3>My Bookings</h3>
-            {% if bookings %}
-                <ul class="booking-list">
-                    {% for booking in bookings %}
-                        <li class="booking-item">
-                            <h4>Hotel: {{ booking.hotel_name }}</h4>
-                            <p>Check-in: {{ booking.check_in_date }}</p>
-                            <p>Check-out: {{ booking.check_out_date }}</p>
-                            <p>Total Price: {{ booking.total_price }}</p>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>You have no bookings yet.</p>
-            {% endif %}
+            <ul class="nav nav-tabs" id="bookingTabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="places-tab" data-toggle="tab" href="#places" role="tab"
+                       aria-controls="places" aria-selected="true">Hotel Bookings</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="bookingTabsContent">
+                <div class="tab-pane fade show active" id="places" role="tabpanel" aria-labelledby="places-tab">
+                    {% if hotels_bookings %}
+                        <ul class="bookings-list">
+                            {% for booking in hotels_bookings %}
+                                <li class="booking-item">
+                                    <div>{{ booking[1] }} - {{ booking[2] }} - Rs.{{ booking[4] }}</div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No hotels bookings found.</p>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#bookingTabs a').on('click', function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+        });
+    </script>
 </body>
 </html>

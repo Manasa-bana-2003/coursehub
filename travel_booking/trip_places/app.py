@@ -4,13 +4,12 @@ import os
 import time
 import re
 import psycopg2
-from datetime import datetime
 
 # Add the db module folder to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../db')))
 
 from db import Place, User, Cart, Hotels, HotelBooking
- # Ensure these classes are correctly defined
+# Ensure these classes are correctly defined
 
 app = Flask(__name__, static_url_path='/static')
 app.secret_key = 'Manasa@2003'
@@ -78,22 +77,38 @@ def results():
     return render_template('search_results.html', places=places, search_term=search_term)
 
 
-@app.route('/profile')
+@app.route('/profile', methods=['GET', 'POST'])
 def profile():
-    if 'user_id' in session:
-        user_id = session['user_id']
-        user_name = session.get('user_name', 'Guest')  # Retrieve user name from session
+    # Retrieve the user's email from the session, if available
+    user_email = session.get('user')
 
-        # Fetch the user's bookings
-        booking_instance = HotelBooking(db_host, db_database, db_user, db_password)
-        bookings = booking_instance.get_bookings_by_user(user_id)
-
-        # Render the profile page with user name and bookings
-        return render_template('profile.html', user_name=user_name, bookings=bookings)
-
+    if not user_email:
+        flash("Please sign in to access your profile", "error")
+        user_data = None
+        bookings = []
     else:
-        flash('Please sign in first.', 'warning')
-        return redirect(url_for('signin'))
+        user_instance = User(db_host, db_database, db_user, db_password)
+
+        if request.method == 'POST':
+            # Handle profile update
+            name = request.form['name']
+            email = request.form['email']
+            password = request.form['password']
+            bio = request.form['bio']
+            try:
+                user_instance.update_user(user_email, name, email, password, bio)
+                session['user'] = email  # Update session if the email was changed
+                flash('Profile updated successfully', 'success')
+            except Exception as e:
+                flash(f'Profile update failed: {str(e)}', 'error')
+
+        # Retrieve user data and bookings
+        user_data = user_instance.get_user(user_email)
+        booking_instance = Bookings(db_host, db_database, db_user, db_password)
+        bookings = booking_instance.get_bookings(user_email)
+
+    # Render the profile page, passing user data and bookings (if available)
+    return render_template('profile.html', user=user_data, hotels_bookings=bookings)
 
 
 @app.route('/cart')
@@ -160,21 +175,31 @@ def signout():
     flash('You have been signed out.', 'info')
     return redirect(url_for('signin'))
 
+
 @app.route('/hotels', methods=['GET', 'POST'])
 def hotels():
     hotel_instance = Hotels(db_host, db_database, db_user, db_password)
-    hotels = hotel_instance.fetch_hotels()
+
+    # If the form is submitted, use the search term to filter results
     if request.method == 'POST':
         search_term = request.form.get('search')
         return redirect(url_for('hotel_search_results', search_term=search_term))
-    return render_template('hotels/hotels.html', hotels=hotels)
+
+    # If no search term, fetch all hotels
+    hotels = hotel_instance.fetch_hotels()
+    return render_template('hotels.html', hotels=hotels)
+
 
 @app.route('/hotel_search_results', methods=['GET'])
 def hotel_search_results():
     search_term = request.args.get('search_term', '')
     hotel_instance = Hotels(db_host, db_database, db_user, db_password)
+
+    # Fetch hotels based on the search term
     hotels = hotel_instance.fetch_hotels(search_term)
-    return render_template('hotels/hotel_search_results.html', hotels=hotels, search_term=search_term)
+
+    return render_template('hotels.html', hotels=hotels, search_term=search_term)
+
 
 @app.route('/hotels/add', methods=['GET', 'POST'])
 def add_hotel():
@@ -218,49 +243,83 @@ def add_destination():
     flash('Unauthorized access.', 'danger')
     return redirect(url_for('signin'))
 
-from datetime import datetime
 
-@app.route('/book_hotel', methods=['POST'])
-def book_hotel():
+@app.route('/book_hotel/<int:hotel_id>', methods=['GET', 'POST'])
+def book_hotel(hotel_id):
     if 'user_id' in session:
-        user_id = session['user_id']
-        hotel_id = request.form.get('hotel_id')
-        check_in_date = request.form.get('check_in_date')
-        check_out_date = request.form.get('check_out_date')
-        number_of_rooms = request.form.get('number_of_rooms')
-        total_price = request.form.get('total_price')
+        if request.method == 'POST':
+            # Fetch user details and booking info from form
+            check_in_date = request.form.get('check_in_date')
+            check_out_date = request.form.get('check_out_date')
+            number_of_rooms = request.form.get('number_of_rooms')
+            total_price = request.form.get('total_price')  # You can calculate this based on the hotel price
 
-        # Use HotelBooking instead of Hotel
-        hotel_booking_instance = HotelBooking(db_host, db_database, db_user, db_password)
-        hotel_booking_instance.create_booking(
-            user_id=user_id,
-            hotel_id=hotel_id,
-            check_in_date=check_in_date,
-            check_out_date=check_out_date,
-            number_of_rooms=number_of_rooms,
-            total_price=total_price
-        )
+            # Use HotelBooking to create a booking
+            hotel_booking_instance = HotelBooking(db_host, db_database, db_user, db_password)
+            hotel_booking_instance.create_booking(
+                user_id=session['user_id'],
+                hotel_id=hotel_id,
+                check_in_date=check_in_date,
+                check_out_date=check_out_date,
+                number_of_rooms=number_of_rooms,
+                total_price=total_price
+            )
 
-        flash('Hotel booked successfully!', 'success')
-        return redirect(url_for('profile'))
+            flash('Hotel booked successfully!', 'success')
+            return redirect(url_for('profile'))
+        else:
+            # Render the hotel booking form (GET request)
+            hotel_booking_instance = HotelBooking(db_host, db_database, db_user, db_password)
+            hotel = hotel_booking_instance.get_hotel_by_id(hotel_id)  # Fetch hotel details by hotel_id
+
+            return render_template('book_hotel.html', hotel=hotel)
+
     else:
         flash('Please sign in first.', 'warning')
         return redirect(url_for('signin'))
 
-
-@app.route('/search_hotels', methods=['POST'])
+@app.route('/search_hotels', methods=['GET', 'POST'])
 def search_hotels():
-    check_in_date = request.form.get('check_in_date')
-    check_out_date = request.form.get('check_out_date')
-    number_of_rooms = int(request.form.get('number_of_rooms'))
+    query = """
+    SELECT id, name, location, place, price_per_night, available_rooms
+    FROM hotels
+    """
+    available_hotels = []
+    with psycopg2.connect(
+        host="localhost",
+        database="new_db",
+        user="manasa",
+        password="1234"
+    ) as conn:
+        with conn.cursor() as cursor:
+            if request.method == 'POST':
+                print("Form submitted!")
+                check_in_date = request.form['check_in_date']
+                check_out_date = request.form['check_out_date']
+                number_of_rooms = int(request.form['number_of_rooms'])
+                print(f"Check-in Date: {check_in_date}, Check-out Date: {check_out_date}, Number of Rooms: {number_of_rooms}")
 
-    # Implement logic to query hotels based on availability
-    # This is a placeholder for filtering logic
-    available_hotels = HotelBooking.get_available_hotels(check_in_date, check_out_date, number_of_rooms)
+                # Modify query to include filtering
+                query += " WHERE available_rooms >= %s"
+                cursor.execute(query, (number_of_rooms,))
+            else:
+                # No filters for GET request
+                cursor.execute(query)
 
-    # Pass the available hotels to the template
-    return render_template('hotels.html', hotels=available_hotels)
-
+            available_hotels = cursor.fetchall()
+# Convert hotel data into dictionaries for rendering
+    hotels_data = [
+        {
+            "id": row[0],
+            "name": row[1],
+            "location": row[2],
+            "place": row[3],
+            "price_per_night": row[4],
+            "available_rooms": row[5]
+        }
+        for row in available_hotels
+    ]
+    return render_template('hotels.html', available_hotels=hotels_data)
 
 if __name__ == '__main__':
     app.run(debug=True)

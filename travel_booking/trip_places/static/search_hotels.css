@@ -14,7 +14,7 @@ body {
 .navbar-brand {
     font-weight: bold;
     font-size: 1.5rem;
-    color: #7ccfa2;
+    color: #007bff;
 }
 
 .nav-link {
@@ -24,7 +24,7 @@ body {
 }
 
 .nav-link:hover {
-    color: #7ccfa2;
+    color: #007bff;
 }
 
 /* Search Section */
@@ -34,7 +34,7 @@ section.bg-light {
 }
 
 section h2 {
-    color: #7ccfa2;
+    color: #007bff;
     font-weight: bold;
     text-transform: uppercase;
     margin-bottom: 30px;
@@ -52,14 +52,14 @@ form .form-control {
 form .btn {
     padding: 10px 30px;
     border-radius: 0.5rem;
-    background-color: #7ccfa2;
+    background-color: #007bff;
     border: none;
     color: white;
     transition: background-color 0.3s ease-in-out;
 }
 
 form .btn:hover {
-    background-color: #5ea984;
+    background-color: #0056b3;
 }
 
 /* Results Section */
@@ -91,7 +91,7 @@ section.py-5 {
 
 .card-title {
     font-weight: bold;
-    color: #7ccfa2;
+    color: #007bff;
 }
 
 .card-text {
@@ -101,7 +101,7 @@ section.py-5 {
 }
 
 .card .btn {
-    background-color: #7ccfa2;
+    background-color: #007bff;
     border: none;
     border-radius: 0.5rem;
     color: white;
@@ -109,7 +109,7 @@ section.py-5 {
 }
 
 .card .btn:hover {
-    background-color: #5ea984;
+    background-color: #0056b3;
 }
 
 /* Responsive Design */

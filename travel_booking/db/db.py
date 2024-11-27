@@ -243,21 +243,33 @@ class HotelDetails:
 
                 f"Place: {self.place}, Price per Night: {self.price_per_night}")
 class Hotels:
-    def __init__(self, host, database, user, password):
-        self.db_params = (host, database, user, password)
+    def __init__(self, db_host, db_database, db_user, db_password):
+        self.db_host = db_host
+        self.db_database = db_database
+        self.db_user = db_user
+        self.db_password = db_password
+
     def fetch_hotels(self, search_term=None):
-        with DatabaseConnection(*self.db_params) as conn:
-            cursor = conn.cursor()
-            query = "SELECT * FROM hotels"
-            if search_term:
-                query += " WHERE place ILIKE %s OR name ILIKE %s"
-                cursor.execute(query, (f'%{search_term}%', f'%{search_term}%'))
-            else:
-                cursor.execute(query)
-            hotels_data = cursor.fetchall()
-            cursor.close()
-        hotels = [HotelDetails(*hotel_data) for hotel_data in hotels_data]
+        query = "SELECT id, name, location, place, price_per_night, available_rooms FROM hotels"
+        params = []
+
+        if search_term:
+            query += " WHERE name ILIKE %s OR location ILIKE %s"
+            params = [f'%{search_term}%', f'%{search_term}%']
+
+        with psycopg2.connect(
+            host=self.db_host,
+            database=self.db_database,
+            user=self.db_user,
+            password=self.db_password
+        ) as conn:
+            with conn.cursor() as cursor:
+                cursor.execute(query, params)
+                hotels = cursor.fetchall()
+
         return hotels
+
+
     def add_hotel(self, name, location, place, price_per_night):
         with DatabaseConnection(*self.db_params) as conn:
             cursor = conn.cursor()
