@@ -1,39 +1,116 @@
-TRAVEL GUIDE:
+Travel Guide Application
+📖 Description:
+The Travel Guide Application is a user-friendly platform designed to assist travelers in planning their trips with ease. The application provides features such as searching for destinations, adding favorite places to a cart, exploring and booking hotels, and managing bookings. Built using modern web technologies, the app ensures a seamless user experience, making travel planning an enjoyable task.
 
-Overview
-Travel Guide is a web-based application designed to provide users with comprehensive information about various travel destinations. The application allows users to browse destinations, view details, and manage their profiles. The project is built using Python, PostgreSQL, HTML, CSS, and JavaScript, focusing on clean design and user-friendly functionality.
 
-Features
-User Authentication: Secure Signin and Signup pages to allow users to create accounts and access personalized content.
-Profile Management: Users can view and update their profiles.
-Destination Browsing: A 'Destinations' page that displays a list of all available travel destinations.
-Detailed Destination Information: Each destination has detailed information, including location, description, and other relevant details.
-Consistent UI/UX: The application maintains a consistent design across all pages with smooth transitions and a cohesive color scheme.
+🛠 Technologies Used:
+Backend: Flask (Python)
+Frontend: HTML, CSS, Bootstrap
+Database: MySQL (for storing user, places and booking data)
+Tools:
+PyCharm (for development)
+Virtual Environment (for dependency management)
 
-TECHNOLOGIES USED:
+🚀 Features:
+--> User Management
+User Sign-Up and Login functionality.
+Secure authentication using hashed passwords.
+Admin functionalities to manage places and hotels.
+--> Destinations
+Search for popular destinations based on preferences.
+Add favorite places to a cart for future reference.
+--> Hotels
+Search for hotels based on check-in and check-out dates and number of rooms.
+Book hotels with the number of rooms required.
+View booking details in the user profile.
 
-Backend:
+📋 Requirements
+* System Requirements
+* Python 3.8 or above
+* PyCharm (or any Python IDE)
+* MySQL server (to manage the database)
+* Python Libraries
 
-Python: Core logic and handling of server-side functionality.
-PostgreSQL: Database management system to store and retrieve data.
-Psycopg2: Python adapter for PostgreSQL to interact with the database.
-Frontend:
+The required libraries are listed in the requirements.txt file. Key libraries include:
+* Flask
+* Flask-WTF
+* Flask-SQLAlchemy
+* Werkzeug
+* MySQL-connector-python
 
-HTML5: Structure of the web pages.
-CSS3: Styling of the web pages, with specific files for Signin (signin.css) and Signup (signup.css) pages.
-JavaScript: Enhances interactivity on the web pages.
+💻 How to Set Up and Run the Application:
+1. Clone the Repository
+   git clone https://github.com/<your-usernam>/travel-guide.git
+   cd travel-guide
+2. Set Up a Virtual Environment
+   python -m venv venv
+3. Activate the Virtual Environment
+   venv\Scripts\activate
+  Windows:
+ venv\Scripts\activate
+  Mac/Linux:
+ source venv/bin/activate
+4. Install Dependencies
+   pip install -r requirements.txt
+5. Configure the Database
+  * Create a MySQL database named travel_guide.
+  * Update the database configuration in the app.py file
+  db_host = "localhost"
+  db_user = "your_username"
+  db_password = "your_password"
+  db_database = "travel_guide"
+6. Initialize the Database
+   Run the following command to create necessary tables:
+   python db.py
+7. Start the Application
+   python app.py
+8. Open the Application
+   Open your browser and navigate to:
+   http://127.0.0.1:5000/
 
-Database Schema
-The application uses a PostgreSQL database with the following key tables:
 
-Users Table:-
-user_id: Primary key, unique identifier for each user.
-username: The username of the user.
-email: The email address of the user.
-password: The hashed password of the user.
+🔍 Functionalities:
+1. User Authentication
+Users can register and log in securely.
+Admin users can manage places and hotels.
+2. Destinations
+Users can browse and search for places.
+Add places to the cart for easy trip planning.
+3. Hotel Booking
+Search for available hotels by specifying check-in/out dates and room requirements.
+Book hotels and view booking details in the user profile.
 
-Place Table:-
-place_id: Primary key, unique identifier for each destination.
-name: The name of the destination.
-location: The geographical location of the destination.
-description: A detailed description of the destination.
+🛠 Development Workflow:
+Directory Structure
+travel-guide/
+│
+├── travel_booking/  
+│   ├── static/              # CSS and image assets
+│   ├── templates/           # HTML templates
+│   ├── app.py               # Main application file
+│   └── db.py                # Database operations
+│
+├── requirements.txt         # Python dependencies
+└── README.md                # Project documentation
+
+-->Key Files:
+app.py: Contains Flask routes for the application.
+db.py: Handles database operations for users, places, and hotels.
+templates/: Includes HTML files for pages like login, signup, destinations, and booking.
+static/: Contains stylesheets and images for the application.
+
+🔧 How to Run in PyCharm
+1. Open PyCharm and Import the Project
+Launch PyCharm and open the travel-guide folder.
+
+2. Set Up the Virtual Environment
+Go to File > Settings > Project > Python Interpreter.
+Add the venv virtual environment created earlier.
+
+3. Run the Application
+Open app.py and click the green run button.
+
+4. Access the Application
+The app will be hosted locally at http://127.0.0.1:5000.
+
+
