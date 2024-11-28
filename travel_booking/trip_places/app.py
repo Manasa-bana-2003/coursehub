@@ -210,12 +210,12 @@ def hotels():
         return redirect(url_for('hotel_search_results', search_term=search_term))
     return render_template('hotels.html', hotels=hotels)
 
-@app.route('/hotel_search_results', methods=['GET'])
+@app.route('/search_hotels', methods=['GET','POST'])
 def hotel_search_results():
     search_term = request.args.get('search_term', '')
     hotel_instance = Hotels(db_host, db_database, db_user, db_password)
     hotels = hotel_instance.fetch_hotels(search_term)
-    return render_template('hotels/hotel_search_results.html', hotels=hotels, search_term=search_term)
+    return render_template('search_hotels.html', hotels=hotels, search_term=search_term)
 
 @app.route('/hotels/add', methods=['GET', 'POST'])
 def add_hotel():
