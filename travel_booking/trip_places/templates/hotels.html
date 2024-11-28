@@ -29,44 +29,42 @@
     </nav>
 
     <!-- Search Section -->
-<section class="bg-light py-5">
-    <div class="container">
-        <h2 class="text-center mb-4">Find Your Perfect Hotel</h2>
-        <form method="POST" action="{{ url_for('search_hotels') }}">
-            <div class="row g-3 align-items-center justify-content-center">
-                <!-- Search Bar -->
-                <div class="col-md-4">
-                    <label for="search-input" class="form-label">Where to?</label>
-                    <div class="d-flex">
-                        <input type="text" name="search" id="search-input" placeholder="Place to go.." class="form-control" required>
-                        <button type="submit" class="btn btn-secondary ms-2">Search</button>
+    <section class="bg-light py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Find Your Perfect Hotel</h2>
+            <form method="POST" action="{{ url_for('search_hotels') }}">
+                <div class="row g-3 align-items-center justify-content-center">
+                    <!-- Search Bar -->
+                    <div class="col-md-4">
+                        <label for="search-input" class="form-label">Where to?</label>
+                        <div class="d-flex">
+                            <input type="text" name="search" id="search-input" placeholder="Place to go.." class="form-control" required>
+                            <button type="submit" class="btn btn-secondary ms-2">Search</button>
+                        </div>
+                    </div>
+                    <!-- Check-in Date -->
+                    <div class="col-md-2">
+                        <label for="check_in_date" class="form-label">Check-in Date</label>
+                        <input type="date" id="check_in_date" name="check_in_date" class="form-control" required>
+                    </div>
+                    <!-- Check-out Date -->
+                    <div class="col-md-2">
+                        <label for="check_out_date" class="form-label">Check-out Date</label>
+                        <input type="date" id="check_out_date" name="check_out_date" class="form-control" required>
+                    </div>
+                    <!-- Number of Rooms -->
+                    <div class="col-md-2">
+                        <label for="number_of_rooms" class="form-label">Number of Rooms</label>
+                        <input type="number" id="number_of_rooms" name="number_of_rooms" class="form-control" min="1" required>
+                    </div>
+                    <!-- Submit Button -->
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-primary btn-lg">Search Hotels</button>
                     </div>
                 </div>
-                <!-- Check-in Date -->
-                <div class="col-md-2">
-                    <label for="check_in_date" class="form-label">Check-in Date</label>
-                    <input type="date" id="check_in_date" name="check_in_date" class="form-control" required>
-                </div>
-                <!-- Check-out Date -->
-                <div class="col-md-2">
-                    <label for="check_out_date" class="form-label">Check-out Date</label>
-                    <input type="date" id="check_out_date" name="check_out_date" class="form-control" required>
-                </div>
-                <!-- Number of Rooms -->
-                <div class="col-md-2">
-                    <label for="number_of_rooms" class="form-label">Number of Rooms</label>
-                    <input type="number" id="number_of_rooms" name="number_of_rooms" class="form-control" min="1" required>
-                </div>
-                <!-- Submit Button -->
-                <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-primary btn-lg">Search Hotels</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</section>
-
-
+            </form>
+        </div>
+    </section>
 
     <!-- Results Section -->
     <section class="py-5">

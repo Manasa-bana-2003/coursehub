@@ -143,6 +143,32 @@ def remove_from_cart(place_id):
         flash('Please sign in first.', 'warning')
         return redirect(url_for('signin'))
 
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        if not email or not is_valid_email(email):
+            flash('Valid email is required.', 'danger')
+            return redirect(url_for('signup'))
+
+        if is_rate_limited(email):
+            flash('Too many failed attempts. Please try again later.', 'danger')
+            return redirect(url_for('signup'))
+
+        user_instance = User(db_host, db_database, db_user, db_password)
+        user_id = user_instance.authenticate(email, password)
+        if user_id:
+            session['user_id'] = user_id
+            session['user_name'] = user_instance.get_user_name(user_id)
+            return redirect(url_for('home'))
+        else:
+            login_attempts[email].append(time.time())
+            flash('Invalid credentials. Try again.', 'danger')
+            return redirect(url_for('signup'))
+    return render_template('signup.html')
+
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
     if request.method == 'POST':
@@ -182,7 +208,7 @@ def hotels():
     if request.method == 'POST':
         search_term = request.form.get('search')
         return redirect(url_for('hotel_search_results', search_term=search_term))
-    return render_template('hotels/hotels.html', hotels=hotels)
+    return render_template('hotels.html', hotels=hotels)
 
 @app.route('/hotel_search_results', methods=['GET'])
 def hotel_search_results():
@@ -271,32 +297,12 @@ def book_hotel():
         return redirect(url_for('signin'))
 
 
-@app.route('/search_hotels', methods=['GET', 'POST'])
+@app.route('/search_hotels', methods=['POST'])
 def search_hotels():
-    if 'user_id' in session:
-        user_id = session['user_id']
-
-        # Default to empty list if no hotels are found
-        available_hotels = []
-
-        if request.method == 'POST':
-            check_in_date = request.form.get('check_in_date')
-            check_out_date = request.form.get('check_out_date')
-            number_of_rooms = int(request.form.get('number_of_rooms'))
-
-            # Query available hotels based on check-in and check-out dates and number of rooms
-            # Example: Make sure to modify this according to your actual database structure and logic
-            available_hotels = db.session.query(Hotel).filter(
-                Hotel.rooms_available >= number_of_rooms,
-                Hotel.check_in_date <= check_in_date,
-                Hotel.check_out_date >= check_out_date
-            ).all()
-
-        return render_template('search_hotels.html', available_hotels=available_hotels)
-
-    else:
-        flash('Please sign in first.', 'warning')
-        return redirect(url_for('signin'))
+    search_term = request.form.get('search_term')
+    hotel_instance = Hotels(db_host, db_database, db_user, db_password)
+    hotels = hotel_instance.fetch_hotels(search_term)
+    return render_template('hotels.html', hotels=hotels, search_term=search_term)
 
 
 if __name__ == '__main__':
