@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="54fbf79d-5332-4482-bed1-7e67b64f562f" name="Changes" comment="Updated">
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/static/cart.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/static/contact.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/static/images/Colosseum.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/static/images/acropolis_of_athens.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/static/images/angkor_wat.jpg" afterDir="false" />
@@ -34,9 +35,11 @@
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/static/images/venice_canals.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/static/images/victoria_falls.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/static/search_hotels.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/about.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/book_hotel.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/booking_confirmation.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/cart.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/contact.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/hotel_display.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/hotel_results.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/travel_booking/trip_places/templates/hotels.html" afterDir="false" />

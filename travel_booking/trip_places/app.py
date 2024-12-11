@@ -120,7 +120,6 @@ def cart():
     else:
         flash('Please sign in first.', 'warning')
         return redirect(url_for('signin'))
-
 @app.route('/cart/add/<int:place_id>', methods=['POST'])
 def add_to_cart(place_id):
     if 'user_id' in session:
@@ -131,7 +130,6 @@ def add_to_cart(place_id):
     else:
         flash('Please sign in first.', 'warning')
         return redirect(url_for('signin'))
-
 @app.route('/cart/remove/<int:place_id>', methods=['POST'])
 def remove_from_cart(place_id):
     if 'user_id' in session:
@@ -210,31 +208,7 @@ def hotels():
         return redirect(url_for('hotel_search_results', search_term=search_term))
     return render_template('hotels.html', hotels=hotels)
 
-@app.route('/search_hotels', methods=['GET','POST'])
-def hotel_search_results():
-    search_term = request.args.get('search_term', '')
-    hotel_instance = Hotels(db_host, db_database, db_user, db_password)
-    hotels = hotel_instance.fetch_hotels(search_term)
-    return render_template('search_hotels.html', hotels=hotels, search_term=search_term)
 
-@app.route('/hotels/add', methods=['GET', 'POST'])
-def add_hotel():
-    if 'user' in session and session['role'] == 'admin':
-        if request.method == 'POST':
-            name = request.form['name']
-            location = request.form['location']
-            place = request.form['place']
-            price_per_night = request.form['price_per_night']
-            hotel_instance = Hotels(db_host, db_database, db_user, db_password)
-            try:
-                hotel_instance.add_hotel(name, location, place, price_per_night)
-                flash('Hotel added successfully!', 'success')
-                return redirect(url_for('hotels'))
-            except Exception as e:
-                flash(f'Failed to add hotel: {str(e)}', 'danger')
-        return render_template('hotels/add_hotel.html')
-    flash('Unauthorized access.', 'danger')
-    return redirect(url_for('signin'))
 
 @app.route('/hotels')
 def hotels_redirect():
@@ -259,51 +233,60 @@ def add_destination():
     flash('Unauthorized access.', 'danger')
     return redirect(url_for('signin'))
 
-from datetime import datetime
 
 
-@app.route('/book_hotel', methods=['GET', 'POST'])
-def book_hotel():
-    if 'user_id' in session:
-        user_id = session['user_id']
 
-        # Fetch the list of hotels from the database
-        hotels = Hotel.query.all()  # Assuming you have a Hotel model to fetch data from the 'hotels' table
-
-        if request.method == 'POST':
-            hotel_id = request.form.get('hotel_id')
-            check_in_date = request.form.get('check_in_date')
-            check_out_date = request.form.get('check_out_date')
-            number_of_rooms = request.form.get('number_of_rooms')
-            total_price = request.form.get('total_price')
-
-            # Use the HotelBooking instance to create the booking
-            hotel_booking_instance = HotelBooking()
-            hotel_booking_instance.create_booking(
-                user_id=user_id,
-                hotel_id=hotel_id,
-                check_in_date=check_in_date,
-                check_out_date=check_out_date,
-                number_of_rooms=number_of_rooms,
-                total_price=total_price
-            )
-
-            flash('Hotel booked successfully!', 'success')
-            return redirect(url_for('booking_confirmation'))
-
-        return render_template('book_hotel.html', hotels=hotels)
-    else:
-        flash('Please sign in first.', 'warning')
-        return redirect(url_for('signin'))
-
-
+def get_db_connection():
+    conn = psycopg2.connect(
+        host="localhost",
+        database="new_db",
+        user="manasa",
+        password="1234"
+    )
+    return conn
 @app.route('/search_hotels', methods=['POST'])
 def search_hotels():
-    search_term = request.form.get('search_term')
-    hotel_instance = Hotels(db_host, db_database, db_user, db_password)
-    hotels = hotel_instance.fetch_hotels(search_term)
-    return render_template('hotels.html', hotels=hotels, search_term=search_term)
+    search_query = request.form.get('search')
+    check_in_date = request.form.get('check_in_date')
+    check_out_date = request.form.get('check_out_date')
+    number_of_rooms = request.form.get('number_of_rooms')
+    # Validating number_of_rooms input
+    if not number_of_rooms or not number_of_rooms.isdigit():
+        number_of_rooms = 1  # Default value if input is empty or invalid
+    else:
+        number_of_rooms = int(number_of_rooms)  # Convert to integer
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    query = """
+    SELECT id, name, location, place, price_per_night, available_rooms, place_id, hotel_url
+    FROM hotels
+    WHERE location ILIKE %s AND available_rooms >= %s"""
+    cursor.execute(query, (f"%{search_query}%", number_of_rooms))
+    hotels = cursor.fetchall()
+    available_hotels = [
+        {
+            "id": hotel[0],  # id
+            "name": hotel[1],  # name
+            "location": hotel[2],  # location
+            "place": hotel[3],  # place
+            "price_per_night": hotel[4],  # price_per_night
+            "available_rooms": hotel[5],  # available_rooms
+            "place_id": hotel[6],  # place_id
+            "hotel_url":hotel[7]
+        }
+        for hotel in hotels
+    ]
+    cursor.close()
+    conn.close()
+    return render_template('hotels.html', available_hotels=available_hotels)
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

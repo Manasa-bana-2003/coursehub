@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Results - Hotels Finder</title>
+    <title>Search Results - STAY GUIDE</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='search_hotels.css') }}">
 </head>
@@ -13,7 +13,7 @@
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Hotel Finder</a>
+            <a class="navbar-brand" href="#">STAY GUIDE</a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
@@ -23,37 +23,33 @@
             </div>
         </div>
     </nav>
-
-
     <!-- Results Section -->
     <section class="py-5">
         <div class="container">
             {% if available_hotels %}
-            <h3 class="mb-4">Available Hotels</h3>
-            <div class="row">
-                {% for hotel in available_hotels %}
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="{{ hotel.image_url }}" class="card-img-top" alt="Hotel Image">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ hotel.name }}</h5>
-                            <p class="card-text">
-                                Location: {{ hotel.location }}<br>
-                                Available Rooms: {{ hotel.available_rooms }}<br>
-                                Price: ₹{{ hotel.price_per_night }}
-                            </p>
-                            <a href="{{ url_for('book_hotel', hotel_id=hotel.id) }}" class="btn btn-success">Book Now</a>
+                <h3 class="mb-4">Available Hotels</h3>
+                <div class="row">
+                    {% for hotel in available_hotels %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <img src="{{ url_for('static', filename=hotel['hotel_url']) }}" alt="{{ hotel['name'] }}" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ hotel[1] }}</h5>
+                                    <p class="card-text">
+                                        Location: {{ hotel[2] }}<br>
+                                        Available Rooms: {{ hotel[5] }}<br>
+                                        Price: ${{ hotel[4] }}
+                                    </p>
+                                    <a href="{{ url_for('hotels', hotel_id=hotel['id']) }}" class="btn btn-success">Book Now</a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-            </div>
             {% else %}
-            <p class="text-center">No hotels found for your selected dates and number of rooms.</p>
+                <p class="text-center">No hotels found for your selected dates and number of rooms.</p>
             {% endif %}
         </div>
     </section>
-
 </body>
-
 </html>

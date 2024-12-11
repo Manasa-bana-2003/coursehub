@@ -254,7 +254,7 @@ class Hotels:
         params = []
 
         if search_term:
-            query += " WHERE name ILIKE %s OR location ILIKE %s"
+            query += " WHERE name ILIKE %s OR location ILIKE %s OR place ILIKE %s"
             params = [f'%{search_term}%', f'%{search_term}%']
 
         with psycopg2.connect(

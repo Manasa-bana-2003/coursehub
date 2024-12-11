@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,9 +9,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='search_results.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-
 <body>
-    <!-- Navigation Bar -->
     <div class="container-fluid">
         <div class="navbar justify-content-end mb-5">
             <ul class="nav">
@@ -46,8 +43,6 @@
             </ul>
         </div>
     </div>
-
-    <!-- Search Form -->
     <div class="container h-75">
         <div style="width:100%; margin-top: 3em;">
             <form action="/results" method="GET">
@@ -59,8 +54,6 @@
                 </div>
             </form>
         </div>
-
-        <!-- Search Results -->
         <div class="places-container mt-4">
             {% if places %}
                 <div class="row">
@@ -86,10 +79,8 @@
             {% endif %}
         </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7Hube39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
-
 </html>
